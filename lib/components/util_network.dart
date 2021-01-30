@@ -65,7 +65,10 @@ class NetworkUtil {
   Future<dynamic> get(String url, {Map<String, String> headers}) {
     debugPrint("GET: $url\n=======\nHeaders: $headers\n========");
 
-    return http.get(url, headers: headers).then(_onValue);
+    return http
+        .get(url, headers: headers)
+        .catchError((e) => Future.error(e.toString()))
+        .then(_onValue);
   }
 
   Future<dynamic> post(String url, {Map headers, Map body, encoding}) {
@@ -74,6 +77,7 @@ class NetworkUtil {
 
     return http
         .post(url, headers: headers, body: body, encoding: encoding)
+        .catchError((e) => Future.error(e.toString()))
         .then(_onValue);
   }
 

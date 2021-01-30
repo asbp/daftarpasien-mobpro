@@ -1,0 +1,1 @@
+final String REST_URL = "https://agung.sera5.id/pintars/public/api/mobpro";

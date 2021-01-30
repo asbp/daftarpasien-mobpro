@@ -1,8 +1,10 @@
+import 'package:daftar_pasien/components/util_constants.dart';
+import 'package:daftar_pasien/components/util_network.dart';
+import 'package:daftar_pasien/models/model_pasien.dart';
+import 'package:daftar_pasien/pages/page_input.dart';
+import 'package:daftar_pasien/widgets/widget_pasien.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mypasien/components/util_network.dart';
-import 'package:mypasien/models/model_pasien.dart';
-import 'package:mypasien/widgets/widget_pasien.dart';
 
 class PageList extends StatefulWidget {
   createState() => _PageListState();
@@ -22,8 +24,8 @@ class _PageListState extends State<PageList> {
       (val as Iterable).map((json) => Pasien.fromJson(json)).toList();
 
   Future<List<Pasien>> loadPasien() async {
-    return nutil
-        .get("http://192.168.1.4/pintars-neu/api/mobpro/pasien")
+    return await nutil
+        .get("${REST_URL}/pasien")
         .then((value) => json2List(value));
   }
 
@@ -35,7 +37,10 @@ class _PageListState extends State<PageList> {
         title: Text("Daftar Pasien"),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (c) => PageInput()));
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
@@ -49,6 +54,7 @@ class _PageListState extends State<PageList> {
                   child: Text("Loading..."),
                 );
               default:
+                // ignore: missing_return
                 if (data.hasError) {
                   return Text("Gagal!" + data.error.toString());
                 } else if (data.hasData) {

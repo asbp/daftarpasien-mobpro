@@ -1,5 +1,5 @@
+import 'package:daftar_pasien/models/model_pasien.dart';
 import 'package:flutter/material.dart';
-import 'package:mypasien/models/model_pasien.dart';
 
 class WidgetPasien extends StatelessWidget {
   Pasien pasien;
@@ -11,7 +11,7 @@ class WidgetPasien extends StatelessWidget {
     return Material(
       child: InkWell(
         child: ListTile(
-            title: Text(pasien.namaPasien), subtitle: Text(pasien.noKartu)),
+            title: Text(pasien.namaPasien), subtitle: Text(pasien.noKartu.toString())),
         onTap: () {},
       ),
     );

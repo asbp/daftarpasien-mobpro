@@ -1,6 +1,6 @@
-# mypasien
+# daftar_pasien
 
-A new Flutter project.
+Aplikasi Daftar Pasien
 
 ## Getting Started
 

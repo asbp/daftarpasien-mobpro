@@ -68,7 +68,7 @@ class NetworkUtil {
     return http
         .get(url, headers: headers)
         .catchError((e) => Future.error(e.toString()))
-        .then(_onValue);
+        .then((http.Response response) => _processResponse(response));
   }
 
   Future<dynamic> post(String url, {Map headers, Map body, encoding}) {

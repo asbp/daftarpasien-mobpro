@@ -26,7 +26,11 @@ class _PageListState extends State<PageList> {
   Future<List<Pasien>> loadPasien() {
     return nutil
         .get("$REST_URL/pasien")
-        .then((value) => json2List(value));
+        .then((dynamic value) {
+          print(value);
+
+          return json2List(value);
+    });
   }
 
   @override

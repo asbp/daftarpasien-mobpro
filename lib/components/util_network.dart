@@ -59,7 +59,7 @@ class NetworkUtil {
   }
 
   get _onValue {
-    return (http.Response response) => _processResponse(response);
+    return (response) => _processResponse(response);
   }
 
   Future<dynamic> get(String url, {Map<String, String> headers}) {

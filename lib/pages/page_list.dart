@@ -48,6 +48,7 @@ class _PageListState extends State<PageList> {
           future: loadPasien(),
           builder: (BuildContext ctx, AsyncSnapshot<List<Pasien>> data) {
             print(data.connectionState.toString());
+
             switch (data.connectionState) {
               case ConnectionState.waiting:
                 return Center(
@@ -55,9 +56,7 @@ class _PageListState extends State<PageList> {
                 );
               default:
                 // ignore: missing_return
-                if (data.hasError) {
-                  return Text("Gagal!" + data.error.toString());
-                } else if (data.hasData) {
+                if (data.hasData) {
                   List<Pasien> list = data.data;
 
                   return Column(
@@ -65,6 +64,8 @@ class _PageListState extends State<PageList> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: list.map((e) => WidgetPasien(pasien: e)).toList(),
                   );
+                } else {
+                  return Text("Gagal!" + data.error.toString());
                 }
             }
           }),

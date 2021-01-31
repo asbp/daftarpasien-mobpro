@@ -1,5 +1,6 @@
 import 'package:daftar_pasien/components/util_constants.dart';
 import 'package:daftar_pasien/components/util_network.dart';
+import 'package:daftar_pasien/components/util_pasien.dart';
 import 'package:daftar_pasien/models/model_pasien.dart';
 import 'package:daftar_pasien/pages/page_input.dart';
 import 'package:daftar_pasien/widgets/widget_pasien.dart';
@@ -11,25 +12,21 @@ class PageList extends StatefulWidget {
 }
 
 class _PageListState extends State<PageList> {
-  NetworkUtil nutil;
+  Future<List<Pasien>> _myFuture;
+  UtilPasien rest;
 
   @override
   void initState() {
     super.initState();
 
-    nutil = NetworkUtil();
+    rest = UtilPasien();
+
+    _refreshList();
   }
 
-  json2List(dynamic val) =>
-      (val as Iterable).map((json) => Pasien.fromJson(json)).toList();
-
-  Future<List<Pasien>> loadPasien() {
-    return nutil
-        .get("$REST_URL/pasien")
-        .then((dynamic value) {
-          print(value);
-
-          return json2List(value);
+  Future<void> _refreshList() async {
+    setState(() {
+      _myFuture = rest.getList();
     });
   }
 
@@ -49,7 +46,7 @@ class _PageListState extends State<PageList> {
         child: Icon(Icons.add),
       ),
       body: FutureBuilder<List<Pasien>>(
-          future: loadPasien(),
+          future: _myFuture,
           builder: (BuildContext ctx, AsyncSnapshot<List<Pasien>> data) {
             print(data.connectionState.toString());
 

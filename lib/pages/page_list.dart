@@ -26,7 +26,6 @@ class _PageListState extends State<PageList> {
   Future<List<Pasien>> loadPasien() async {
     return await nutil
         .get("$REST_URL/pasien")
-        .catchError((onError) => print("Error lagi"))
         .then((value) => json2List(value));
   }
 

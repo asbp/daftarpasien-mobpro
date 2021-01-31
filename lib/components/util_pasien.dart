@@ -21,7 +21,8 @@ class UtilPasien {
     await Future.delayed(Duration(seconds: 2));
 
     dynamic a = await _networkUtil
-        .get("$REST_URL/pasien");
+        .get("$REST_URL/pasien")
+        .catchError((e, s) => Future.error(s.toString()));
 
     return _list(a);
   }

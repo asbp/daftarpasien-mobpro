@@ -58,42 +58,43 @@ class NetworkUtil {
     return _decoder.convert(res);
   }
 
-  get _onValue {
-    return (http.Response response) => _processResponse(response);
-  }
-
-  Future<dynamic> get(String url, {Map<String, String> headers}) {
+  Future<dynamic> get(String url, {Map<String, String> headers}) async {
     debugPrint("GET: $url\n=======\nHeaders: $headers\n========");
 
-    return http
+    http.Response response = await http
         .get(url, headers: headers)
-        .catchError((e, stacktrace) {
-          print(stacktrace.toString());
-            return Future.error(e.toString() + "\n" + stacktrace.toString());
-          })
-        .then(_onValue);
+        .catchError((e, stacktrace) => Future.error(stacktrace.toString()));
+
+    return _processResponse(response);
   }
 
-  Future<dynamic> post(String url, {Map headers, Map body, encoding}) {
+  Future<dynamic> post(String url, {Map headers, Map body, encoding}) async {
     debugPrint(
         "POST: $url\n=======\nHeaders: $headers\n========\nBody: $body\n=======");
 
-    return http
+    http.Response response = await http
         .post(url, headers: headers, body: body, encoding: encoding)
-        .catchError((e) => Future.error(e.toString()))
-        .then(_onValue);
+        .catchError((e, stacktrace) => Future.error(stacktrace.toString()));
+
+    return _processResponse(response);
   }
 
-  Future<dynamic> put(String url, {Map headers, Map body, encoding}) {
+  Future<dynamic> put(String url, {Map headers, Map body, encoding}) async {
     debugPrint(
         "PUT: $url\n=======\nHeaders: $headers\n========\nBody: $body\n=======");
 
-    return http
+    http.Response response = await http
         .put(url, headers: headers, body: body, encoding: encoding)
-        .then(_onValue);
+        .catchError((e, stacktrace) => Future.error(stacktrace.toString()));
+
+    return _processResponse(response);
   }
 
   Future<dynamic> delete(String url, {Map headers}) async {
-    return http.delete(url, headers: headers).then(_onValue);
+
+    http.Response response = await http.delete(url, headers: headers)
+        .catchError((e, stacktrace) => Future.error(stacktrace.toString()));
+
+    return _processResponse(response);
   }
 }

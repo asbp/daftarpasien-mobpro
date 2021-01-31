@@ -20,9 +20,10 @@ class UtilPasien {
   Future<List<Pasien>> getList() async {
     await Future.delayed(Duration(seconds: 2));
 
-    return _networkUtil
-        .get("$REST_URL/pasien")
-        .then((val) => _list(val));
+    dynamic a = await _networkUtil
+        .get("$REST_URL/pasien");
+
+    return _list(a);
   }
 
 }

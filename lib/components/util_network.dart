@@ -67,8 +67,11 @@ class NetworkUtil {
 
     return http
         .get(url, headers: headers)
-        .catchError((e) => Future.error(e.toString()))
-        .then((http.Response response) => _processResponse(response));
+        .catchError((e, stacktrace) {
+          print(stacktrace.toString());
+            return Future.error(e.toString() + "\n" + stacktrace.toString());
+          })
+        .then(_onValue);
   }
 
   Future<dynamic> post(String url, {Map headers, Map body, encoding}) {

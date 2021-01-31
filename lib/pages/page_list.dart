@@ -23,8 +23,8 @@ class _PageListState extends State<PageList> {
   json2List(dynamic val) =>
       (val as Iterable).map((json) => Pasien.fromJson(json)).toList();
 
-  Future<List<Pasien>> loadPasien() async {
-    return await nutil
+  Future<List<Pasien>> loadPasien() {
+    return nutil
         .get("$REST_URL/pasien")
         .then((value) => json2List(value));
   }
@@ -44,7 +44,7 @@ class _PageListState extends State<PageList> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<List<Pasien>>(
           future: loadPasien(),
           builder: (BuildContext ctx, AsyncSnapshot<List<Pasien>> data) {
             print(data.connectionState.toString());
@@ -65,7 +65,7 @@ class _PageListState extends State<PageList> {
                     children: list.map((e) => WidgetPasien(pasien: e)).toList(),
                   );
                 } else {
-                  return Text("Gagal!" + data.error.toString());
+                  return Text("Gagal!\n" + data.error.toString());
                 }
             }
           }),
